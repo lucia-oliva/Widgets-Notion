@@ -5,232 +5,343 @@
 <title>Month Goals ✨</title>
 
 <style>
-  body {
-    background: transparent;
-    }
-  html {
-    background: transparent;
-    }
-  .card {
-    max-width: 440px;
-    margin: 0 auto;
-    background: #ffffff;
-    border-radius: 18px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-    padding: 20px 22px;
-    border: 1px solid #ffe5f4;
-  }
 
-  .title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #ff82c5;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+/* ============================= */
+/*        ESTILOS BASE           */
+/* ============================= */
 
-  .subtitle {
-    font-size: 0.85rem;
-    color: #a58cb5;
-    margin-bottom: 14px;
-  }
+body, html {
+  margin: 0;
+  padding: 0;
+}
 
-  .pill {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: #ffe6f4;
-    font-size: 0.75rem;
-    color: #c46caa;
-    margin-bottom: 12px;
-  }
+/* ============================= */
+/*    MODO CLARO (theme=light)   */
+/* ============================= */
 
-  #goals-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+body.theme-light {
+  background: #fff7fb; /* pastel rosadito */
+}
 
-  .goal {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #fff9ff;
-    border-radius: 12px;
-    padding: 8px 10px;
-    border: 1px solid #fbe4ff;
-  }
+body.theme-light .card {
+  background: #ffffff;
+  border: 1px solid #ffe5f4;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
 
-  .goal:hover {
-    box-shadow: 0 4px 10px rgba(255,150,210,0.15);
-    transform: translateY(-1px);
-  }
+body.theme-light .title {
+  color: #ff82c5;
+}
 
-  input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    accent-color: #ff9acb;
-  }
+body.theme-light .subtitle {
+  color: #a58cb5;
+}
 
-  .goal-label {
-    flex: 1;
-    font-size: 0.9rem;
-    color: #7a668f;
-  }
+body.theme-light .pill {
+  background: #ffe6f4;
+  color: #c46caa;
+}
 
-  .completed .goal-label {
-    text-decoration: line-through;
-    color: #c2a8d2;
-  }
+body.theme-light .goal {
+  background: #fff9ff;
+  border: 1px solid #fbe4ff;
+}
 
-  .delete-btn {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    font-size: 1rem;
-    color: #d28bbf;
-    transition: 0.2s;
-  }
+body.theme-light .goal-label {
+  color: #7a668f;
+}
 
-  .delete-btn:hover {
-    color: #ff5ea8;
-  }
+body.theme-light .add-input {
+  background: #fff8ff;
+  border: 1px solid #f3d8f3;
+  color: #7a668f;
+}
 
-  .add-container {
-    margin-top: 14px;
-    display: flex;
-    gap: 8px;
-  }
+body.theme-light .add-btn {
+  background: #ffb4dd;
+  color: #fff;
+}
 
-  .add-input {
-    flex: 1;
-    padding: 8px 10px;
-    border-radius: 10px;
-    border: 1px solid #f3d8f3;
-    background: #fff8ff;
-    font-size: 0.9rem;
-    color: #7a668f;
-  }
+body.theme-light .footer {
+  color: #b19bc5;
+}
 
-  .add-btn {
-    padding: 8px 12px;
-    border-radius: 10px;
-    border: none;
-    background: #ffb4dd;
-    color: #ffffff;
-    font-size: 0.9rem;
-    cursor: pointer;
-    font-weight: 600;
-    transition: 0.2s;
-  }
 
-  .add-btn:hover {
-    background: #ff8fc9;
-  }
+/* ============================= */
+/*    MODO OSCURO (theme=dark)   */
+/* ============================= */
 
-  .footer {
-    margin-top: 14px;
-    font-size: 0.75rem;
-    color: #b19bc5;
-    text-align: right;
-  }
+body.theme-dark {
+  background: #1F1F1F; /* igual al fondo de Notion dark */
+}
+
+body.theme-dark .card {
+  background: #262626;
+  border: 1px solid #3a3a3a;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+body.theme-dark .title {
+  color: #ffb8e8;
+}
+
+body.theme-dark .subtitle {
+  color: #d8cde3;
+}
+
+body.theme-dark .pill {
+  background: #3a2e39;
+  color: #e6badf;
+}
+
+body.theme-dark .goal {
+  background: #2f2a33;
+  border: 1px solid #3d3146;
+}
+
+body.theme-dark .goal-label {
+  color: #f0e0ff;
+}
+
+body.theme-dark .add-input {
+  background: #322c35;
+  border: 1px solid #4a4152;
+  color: #e8d8f5;
+}
+
+body.theme-dark .add-btn {
+  background: #ff93cf;
+  color: #262626;
+}
+
+body.theme-dark .footer {
+  color: #c7b5d9;
+}
+
+
+/* ============================= */
+/*           CARD BASE           */
+/* ============================= */
+
+.card {
+  max-width: 440px;
+  margin: 0 auto;
+  border-radius: 18px;
+  padding: 20px 22px;
+}
+
+/* textos */
+.title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  margin-bottom: 12px;
+}
+
+/* lista */
+#goals-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.goal {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  padding: 8px 10px;
+  transition: 0.1s;
+}
+
+.goal:hover {
+  transform: translateY(-1px);
+}
+
+/* checks */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #ff9acb;
+}
+
+/* texto meta */
+.goal-label {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.completed .goal-label {
+  text-decoration: line-through;
+}
+
+/* borrar */
+.delete-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+
+/* agregar */
+.add-container {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+}
+
+.add-input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.add-btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.footer {
+  margin-top: 14px;
+  font-size: 0.75rem;
+  text-align: right;
+}
+
 </style>
 </head>
 
 <body>
   <div class="card">
     <div class="title">Month Goals ✨</div>
-    <div class="subtitle">Lista de metas para: <span id="month-name"></span>🌸</div>
-    <!-- LISTA -->
+    <div class="subtitle">Lista de metas para: <span id="month-name"></span> 🌸</div>
+
     <ul id="goals-list"></ul>
 
-    <!-- AGREGAR -->
     <div class="add-container">
       <input id="new-goal-input" class="add-input" placeholder="Añadir meta... 🌸">
       <button class="add-btn" id="add-btn">+</button>
     </div>
+
+    <div class="footer">Guardado localmente ✨</div>
   </div>
 
 
 <script>
-  const STORAGE_KEY = "month-goals-with-add-delete-v1";
-  const listEl = document.getElementById("goals-list");
-  const addBtn = document.getElementById("add-btn");
-  const inputEl = document.getElementById("new-goal-input");
 
-  // Mostrar nombre del mes
-  const months = ["Enero","Febrero","Marzo","Abril","Mayo","Junio",
-                  "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
-  document.getElementById("month-name").textContent = months[new Date().getMonth()];
+/* ===================================================== */
+/*        SISTEMA DE THEME VIA URL (?theme=dark)         */
+/* ===================================================== */
 
-  // Cargar datos
-  let goals = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+const params = new URLSearchParams(window.location.search);
+const theme = params.get("theme");
+const body = document.body;
 
-  function save() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(goals));
-  }
+if (theme === "dark") {
+  body.classList.add("theme-dark");
+} else {
+  body.classList.add("theme-light"); /* default */
+}
 
-  function render() {
-    listEl.innerHTML = "";
 
-    goals.forEach(goal => {
-      const li = document.createElement("li");
-      li.className = "goal";
-      if (goal.checked) li.classList.add("completed");
+/* ===================================================== */
+/*               TU WIDGET ORIGINAL                      */
+/* ===================================================== */
 
-      li.innerHTML = `
-        <input type="checkbox" ${goal.checked ? "checked" : ""} data-id="${goal.id}">
-        <span class="goal-label">${goal.text}</span>
-        <button class="delete-btn" data-id="${goal.id}">❌</button>
-      `;
+const STORAGE_KEY = "month-goals-with-add-delete-v1";
+const listEl = document.getElementById("goals-list");
+const addBtn = document.getElementById("add-btn");
+const inputEl = document.getElementById("new-goal-input");
 
-      listEl.appendChild(li);
-    });
-  }
+// Mostrar nombre del mes
+const months = ["Enero","Febrero","Marzo","Abril","Mayo","Junio",
+                "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+document.getElementById("month-name").textContent = months[new Date().getMonth()];
 
-  // Eventos de añadir
-  addBtn.onclick = () => {
-    const text = inputEl.value.trim();
-    if (!text) return;
+// Cargar datos
+let goals = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 
-    goals.push({
-      id: Date.now(),
-      text,
-      checked: false
-    });
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(goals));
+}
 
-    inputEl.value = "";
+function render() {
+  listEl.innerHTML = "";
+
+  goals.forEach(goal => {
+    const li = document.createElement("li");
+    li.className = "goal";
+    if (goal.checked) li.classList.add("completed");
+
+    li.innerHTML = `
+      <input type="checkbox" ${goal.checked ? "checked" : ""} data-id="${goal.id}">
+      <span class="goal-label">${goal.text}</span>
+      <button class="delete-btn" data-id="${goal.id}">❌</button>
+    `;
+
+    listEl.appendChild(li);
+  });
+}
+
+// Añadir meta
+addBtn.onclick = () => {
+  const text = inputEl.value.trim();
+  if (!text) return;
+
+  goals.push({
+    id: Date.now(),
+    text,
+    checked: false
+  });
+
+  inputEl.value = "";
+  save();
+  render();
+};
+
+// Checkbox / borrar
+listEl.onclick = (e) => {
+  const id = Number(e.target.dataset.id);
+
+  if (e.target.tagName === "INPUT") {
+    const g = goals.find(g => g.id === id);
+    g.checked = e.target.checked;
     save();
     render();
-  };
+  }
 
-  // Eventos de checkbox y borrar
-  listEl.onclick = (e) => {
-    const id = Number(e.target.dataset.id);
+  if (e.target.classList.contains("delete-btn")) {
+    goals = goals.filter(g => g.id !== id);
+    save();
+    render();
+  }
+};
 
-    // marcar/desmarcar
-    if (e.target.tagName === "INPUT") {
-      const g = goals.find(g => g.id === id);
-      g.checked = e.target.checked;
-      save();
-      render();
-    }
-
-    // eliminar
-    if (e.target.classList.contains("delete-btn")) {
-      goals = goals.filter(g => g.id !== id);
-      save();
-      render();
-    }
-  };
-
-  // Inicializar
-  render();
+render();
 </script>
 
 </body>
 </html>
+
