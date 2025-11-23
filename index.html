@@ -250,19 +250,36 @@ input[type="checkbox"] {
 
 
 <script>
-
 /* ===================================================== */
-/*        SISTEMA DE THEME VIA URL (?theme=dark)         */
+/*   DETECTAR PREFERENCIA DEL SISTEMA (LIGHT / DARK)     */
 /* ===================================================== */
 
-const params = new URLSearchParams(window.location.search);
-const theme = params.get("theme");
 const body = document.body;
 
-if (theme === "dark") {
-  body.classList.add("theme-dark");
+// función que aplica el tema según el booleano
+function applyTheme(isDark) {
+  body.classList.remove('theme-dark', 'theme-light');
+  body.classList.add(isDark ? 'theme-dark' : 'theme-light');
+}
+
+// 1) detectar preferencia inicial
+if (window.matchMedia) {
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  applyTheme(mq.matches);
+
+  // 2) opcional: escuchar cambios de tema del sistema en tiempo real
+  if (mq.addEventListener) {
+    mq.addEventListener('change', (e) => {
+      applyTheme(e.matches);
+    });
+  } else if (mq.addListener) { // soporte para navegadores más viejos
+    mq.addListener((e) => {
+      applyTheme(e.matches);
+    });
+  }
 } else {
-  body.classList.add("theme-light"); /* default */
+  // si el navegador no soporta matchMedia, usa light por defecto
+  applyTheme(false);
 }
 
 
