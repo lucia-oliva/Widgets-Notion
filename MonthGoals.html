@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Month Goals ✨</title>
+
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background: #fff7fb;
+    margin: 0;
+    padding: 16px;
+  }
+
+  .card {
+    max-width: 440px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    padding: 20px 22px;
+    border: 1px solid #ffe5f4;
+  }
+
+  .title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ff82c5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: #a58cb5;
+    margin-bottom: 14px;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #ffe6f4;
+    font-size: 0.75rem;
+    color: #c46caa;
+    margin-bottom: 12px;
+  }
+
+  #goals-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .goal {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff9ff;
+    border-radius: 12px;
+    padding: 8px 10px;
+    border: 1px solid #fbe4ff;
+  }
+
+  .goal:hover {
+    box-shadow: 0 4px 10px rgba(255,150,210,0.15);
+    transform: translateY(-1px);
+  }
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #ff9acb;
+  }
+
+  .goal-label {
+    flex: 1;
+    font-size: 0.9rem;
+    color: #7a668f;
+  }
+
+  .completed .goal-label {
+    text-decoration: line-through;
+    color: #c2a8d2;
+  }
+
+  .delete-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #d28bbf;
+    transition: 0.2s;
+  }
+
+  .delete-btn:hover {
+    color: #ff5ea8;
+  }
+
+  .add-container {
+    margin-top: 14px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .add-input {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #f3d8f3;
+    background: #fff8ff;
+    font-size: 0.9rem;
+    color: #7a668f;
+  }
+
+  .add-btn {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: none;
+    background: #ffb4dd;
+    color: #ffffff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+  }
+
+  .add-btn:hover {
+    background: #ff8fc9;
+  }
+
+  .footer {
+    margin-top: 14px;
+    font-size: 0.75rem;
+    color: #b19bc5;
+    text-align: right;
+  }
+</style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="title">Month Goals ✨</div>
+    <div class="subtitle">Lista de metas para: <span id="month-name"></span>🌸</div>
+    <!-- LISTA -->
+    <ul id="goals-list"></ul>
+
+    <!-- AGREGAR -->
+    <div class="add-container">
+      <input id="new-goal-input" class="add-input" placeholder="Añadir meta... 🌸">
+      <button class="add-btn" id="add-btn">+</button>
+    </div>
+  </div>
+
+
+<script>
+  const STORAGE_KEY = "month-goals-with-add-delete-v1";
+  const listEl = document.getElementById("goals-list");
+  const addBtn = document.getElementById("add-btn");
+  const inputEl = document.getElementById("new-goal-input");
+
+  // Mostrar nombre del mes
+  const months = ["Enero","Febrero","Marzo","Abril","Mayo","Junio",
+                  "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+  document.getElementById("month-name").textContent = months[new Date().getMonth()];
+
+  // Cargar datos
+  let goals = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+  function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(goals));
+  }
+
+  function render() {
+    listEl.innerHTML = "";
+
+    goals.forEach(goal => {
+      const li = document.createElement("li");
+      li.className = "goal";
+      if (goal.checked) li.classList.add("completed");
+
+      li.innerHTML = `
+        <input type="checkbox" ${goal.checked ? "checked" : ""} data-id="${goal.id}">
+        <span class="goal-label">${goal.text}</span>
+        <button class="delete-btn" data-id="${goal.id}">❌</button>
+      `;
+
+      listEl.appendChild(li);
+    });
+  }
+
+  // Eventos de añadir
+  addBtn.onclick = () => {
+    const text = inputEl.value.trim();
+    if (!text) return;
+
+    goals.push({
+      id: Date.now(),
+      text,
+      checked: false
+    });
+
+    inputEl.value = "";
+    save();
+    render();
+  };
+
+  // Eventos de checkbox y borrar
+  listEl.onclick = (e) => {
+    const id = Number(e.target.dataset.id);
+
+    // marcar/desmarcar
+    if (e.target.tagName === "INPUT") {
+      const g = goals.find(g => g.id === id);
+      g.checked = e.target.checked;
+      save();
+      render();
+    }
+
+    // eliminar
+    if (e.target.classList.contains("delete-btn")) {
+      goals = goals.filter(g => g.id !== id);
+      save();
+      render();
+    }
+  };
+
+  // Inicializar
+  render();
+</script>
+
+</body>
+</html>
